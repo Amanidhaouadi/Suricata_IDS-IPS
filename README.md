@@ -51,16 +51,70 @@ sudo tail -f /var/log/suricata/fast.log
 -------------------------------------------------------------------------------------------------------------------
 
 
-
-# Suricata IPS – Partie 2 : Installation, Configuration et Tests
-
+# Suricata IPS – Partie 2 : Configuration et Tests en Mode Prévention
 
 
+## Objectifs
+- Configurer Suricata en mode IPS (Intrusion Prevention System) avec NFQUEUE
+- Implémenter des règles de blocage proactif du trafic malveillant
+- Analyser le trafic TLS et extraire les fichiers téléchargés
+- Traiter les alertes au format JSON pour analyse avancée
 
+## Configuration IPS
+- Activation du mode NFQUEUE dans `suricata.yaml`
+- Redirection du trafic iptables vers Suricata :
+  ```bash
+  iptables -A OUTPUT -j NFQUEUE
+  iptables -A INPUT -j NFQUEUE
+  ```
 
+## Règles de blocage implémentées
 
+### Blocage ICMP
+```bash
+drop icmp $HOME_NET any -> 8.8.8.8 any
+```
+**Résultat** : Ping vers 8.8.8.8 → 100% bloqué
 
+### Filtrage HTTP
+```bash
+drop tcp $HOME_NET any -> $EXTERNAL_NET any
+```
+**Résultat** : Accès HTTP → Complètement bloqué
 
+### Sécurité TLS
+```bash
+drop tls any any -> any any (tls_cert_expired;)
+```
+**Résultat** : Certificats expirés → Bloqués
+
+### Blocage Facebook
+```bash
+drop tls any any -> any any (content:"facebook.com";)
+```
+**Résultat** : Accès à Facebook → Empêché
+
+## Fonctionnalités avancées
+
+### Extraction de fichiers
+- Activation du stockage dans `suricata.yaml`
+- Récupération des fichiers téléchargés via HTTP
+
+### Analyse JSON
+- Format EVE activé pour les logs
+- Détection d'ETERNALBLUE dans PCAP WannaCry
+- Analyse avec outils `jq`
+
+## Commandes IPS
+```bash
+suricata -c /etc/suricata/suricata.yaml -q 0
+```
+
+## ✅ Résultats
+- Mode prévention actif avec blocage en temps réel
+- Protection contre multiples vecteurs d'attaque
+- Analyse approfondie du trafic réseau
+- Détection de malware avancé
 
 
 

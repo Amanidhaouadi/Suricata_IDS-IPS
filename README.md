@@ -53,12 +53,12 @@ Le trafic a été simulé en rejouant un fichier PCAP :
 ```bash
 sudo tcpreplay -i enp0s3 phishingattack.pcap
 ```
-<img width="584" height="303" alt="Capture d'écran 2025-07-21 225602" src="Tests/Test.png" />
+<img width="650" height="360" alt="Capture d'écran 2025-07-21 225602" src="Tests/Test.png" />
 
 
 ### 3. Analyse des Logs
 Les alertes générées par Suricata confirment la détection de l'anomalie :
-<img width="584" height="303" alt="Capture d'écran 2025-07-21 225602" src="Tests/Log.png" />
+<img width="650" height="360" alt="Capture d'écran 2025-07-21 225602" src="Tests/Log.png" />
 
 
 ## Résultats

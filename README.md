@@ -43,6 +43,23 @@ sudo tail -f /var/log/suricata/fast.log
 - `/etc/sysconfig/suricata`
 - `/var/lib/suricata/rules/custom.rules`
 
+## Tests et Validation
+
+### 1. Signature Personnalisée
+Pour détecter l'attaque de phishing, j'ai ajouté la règle suivante dans `custom.rules` :
+
+### 2. Exécution du test
+Le trafic a été simulé en rejouant un fichier PCAP :
+```bash
+sudo tcpreplay -i enp0s3 phishingattack.pcap
+```
+
+
+### 3. Analyse des Logs
+Les alertes générées par Suricata confirment la détection de l'anomalie :
+
+
+
 ## Résultats
 - Suricata fonctionne en mode IDS avec des règles personnalisées et tierces.
 - Détection réussie d'attaques : User-Agent suspect, SYN Flood, phishing DNS, et ICMP.
